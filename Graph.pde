@@ -1,7 +1,8 @@
-int NUMNODES = 5;
+int NUMNODES = 15;
 float RADIUS = 20;
 
 ArrayList<Node> nodes = new ArrayList<Node>();
+ArrayList<Edge> edge = new ArrayList<Edge>();
 
 void setup() {
   size (600, 600);
@@ -13,8 +14,11 @@ void setup() {
 }
 
 void draw() {
-    for (Node node : nodes) {
-     node.display();
+  for (Edge edg : edge) {
+   edg.display(); 
+  }
+  for (Node node : nodes) {
+    node.display();
     details();
   }
 }
