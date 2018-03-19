@@ -3,37 +3,39 @@ public class Node {
   float posX;
   float posY;
   float radius;
-  public char name;
-  ArrayList<Edge> adjacent = new ArrayList<Edge>();
+  char name;
+  public color circleFill = #FFFFFF;
+  public color edgeColor = #000000;
+  ArrayList<Edge> edges = new ArrayList<Edge>();
   
-  Node(float x, float y, float r, int i) {
+  Node(float x, float y, float r, int i, char n) {
     posX = x;
     posY = y;
     radius  = r;
     index = i;
-    name = (char)(index);
+    name = n;
+    
   }
   
   
   void addEdge(int x, int y) {
-    adjacent.add(new Edge(x, y));
+    edges.add(new Edge(x, y));
   }
- 
+  
  void display() {
-   
-   //draw the eges first so that they don't block the nodes
-   fill(#000000);
-   for (Edge edge : adjacent) {
+     //draw the eges first so that they don't block th e nodes
+   //fill(circleFill);
+   for (Edge edge : edges) {
      edge.display();
    }
    
-   fill(#FFFFFF);
+   fill(circleFill);
    ellipse(posX, posY, radius, radius);
    
    fill(#000000);
    textSize(10);
-   
-   text(index, posX-2, posY+2);
+   textAlign(CENTER, CENTER);
+   text(name, posX, posY-2);
  }
  
 
