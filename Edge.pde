@@ -1,23 +1,22 @@
 public class Edge {
-  int adjacent;
-  int current;
-  public boolean draw = true;
+  int node1;
+  int node2;
+  Node current;
+  Node adjacent;
+  public color edgeColor = #000000;
+  
   Edge( int x, int y){
-    current = x;
-    adjacent = y;
-  }
+    node1 = x;
+    node2 = y;
+    current = nodes.get(node1);
+    adjacent = nodes.get(node2);
+}
+  
+  
   
   void display() {
-    if (draw == true) {
-      Node node1 = nodes.get(current);
-      Node node2 = nodes.get(adjacent);
-      line( node1.posX, node1.posY, node2.posX, node2.posY);
-      for (Edge  edge : node2.edges) {
-        if (edge.adjacent == current){
-          edge.draw = false;
-        }
-      }
-    }
+    fill(#000000);
+    line(current.posX, current.posY, adjacent.posX, adjacent.posY);
   }
 }
   

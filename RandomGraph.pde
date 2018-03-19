@@ -11,18 +11,18 @@
 
 void randomGraph (int size, float r) {
   String alp = "abcdefghijklmnopqrstuvwxyz";
+  
   for(int i = 0; i < size; i++) {
     nodes.add(new Node(random(25, width - 25), random(25, height - 25), r, i, alp.charAt(i)));
   }
   
   
   // this section randomly connects nodes.
-  
   for (int i = 0; i < nodes.size(); i++) {
     Node node = nodes.get(i);
     // limit the degree of the nodes
     int x = (int)(random(1, NUMNODES-1));
-    x = x - node.edges.size();
+    x = x - node.adjacent.size();
     for(int j = 0; j < x; j++) {
       int E;
       boolean goodE;
@@ -34,19 +34,22 @@ void randomGraph (int size, float r) {
          if( E == node.index)
            goodE = false;
          
-         for (Edge adj : node.edges) {
-          if (E == adj.adjacent) 
+         for (AdjNode adj : node.adjacent) {
+          if (E == adj.currIndex) 
             goodE = false;
          }
          
       } while(goodE == false);
       
       //add the edd to both nodes to prevent duplication      
-      node.addEdge(i, E);
+      node.adjancency(i, E);
       node = nodes.get(E);
-      node.addEdge(E, i);
-      
+      node.adjancency(E, i);
     }
+  }
+  
+  for (Node node : nodes) {
+    node.makeEdge();  //<>//
   }
   
 }

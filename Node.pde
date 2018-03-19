@@ -5,8 +5,8 @@ public class Node {
   float radius;
   char name;
   public color circleFill = #FFFFFF;
-  public color edgeColor = #000000;
-  ArrayList<Edge> edges = new ArrayList<Edge>();
+  
+  ArrayList<AdjNode> adjacent = new ArrayList<AdjNode>();
   
   Node(float x, float y, float r, int i, char n) {
     posX = x;
@@ -18,16 +18,29 @@ public class Node {
   }
   
   
-  void addEdge(int x, int y) {
-    edges.add(new Edge(x, y));
+  void adjancency(int x, int y) {
+    adjacent.add( new AdjNode(x , y));
+  }
+ 
+  void makeEdge () {
+    for (AdjNode curr : adjacent) {
+      if (curr.edgeMade == false) {
+          int x = curr.currIndex;
+          int y = curr.adjIndex; //<>//
+          
+          edge.add(new Edge( x, y )); //<>//
+          curr.dontUse(true); //<>//
+          Node node = nodes.get(y);
+          for (AdjNode adj : node.adjacent) {
+            if (adj.adjIndex == curr.currIndex) {
+              adj.dontUse(true);
+            }   
+          } //<>// //<>//
+      }
+    }
   }
   
  void display() {
-     //draw the eges first so that they don't block th e nodes
-   //fill(circleFill);
-   for (Edge edge : edges) {
-     edge.display();
-   }
    
    fill(circleFill);
    ellipse(posX, posY, radius, radius);
@@ -37,6 +50,20 @@ public class Node {
    textAlign(CENTER, CENTER);
    text(name, posX, posY-2);
  }
- 
+}
 
+public class AdjNode {
+  int currIndex;
+  int adjIndex;
+  boolean edgeMade = false;
+  
+  
+  AdjNode( int x, int y ) {
+    currIndex = x;
+    adjIndex = y;
+  }
+  
+  void dontUse (boolean x) {
+   edgeMade = x; 
+  }
 }
