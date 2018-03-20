@@ -3,19 +3,27 @@ public class Edge {
   int node2;
   Node current;
   Node adjacent;
-  public color edgeColor = #000000;
+  color edgeColor = #000000;
+  boolean selected = false;
 
   Edge( int x, int y) {
     node1 = x;
     node2 = y;
     current = nodes.get(node1);
     adjacent = nodes.get(node2);
+    
   }
 
 
 
   void display() {
-    fill(#000000);
+    if (current.selc == true) {
+      edgeColor = #FC0505;
+    } else {
+      edgeColor = #FFFFFF;
+    }
+    
+    fill(edgeColor);
     line(current.posX, current.posY, adjacent.posX, adjacent.posY);
   }
 }

@@ -1,11 +1,11 @@
-int NUMNODES = 26;
+int NUMNODES = 13;
 float RADIUS = 20;
 
 ArrayList<Node> nodes = new ArrayList<Node>();
 ArrayList<Edge> edge = new ArrayList<Edge>();
 
 void setup() {
-  size (600, 600);
+  size (1920, 1000);
   surface.setResizable(true);
 
   randomGraph(NUMNODES, RADIUS);

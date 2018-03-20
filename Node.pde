@@ -1,10 +1,11 @@
-public class Node { //<>// //<>// //<>// //<>//
+public class Node {  //<>//
   int index;
   float posX;
   float posY;
   float radius;
   char name;
-  public color circleFill = #FFFFFF;
+  public boolean selc = false;
+  color circleFill = #FFFFFF;
 
   ArrayList<AdjNode> adjacent = new ArrayList<AdjNode>();
 
@@ -38,6 +39,20 @@ public class Node { //<>// //<>// //<>// //<>//
       }
     }
   }
+  
+  void selected (boolean x) {
+    selc = x;
+    Node node;
+    if (x == true) {
+      for (AdjNode adjN : adjacent){
+       node = nodes.get(adjN.adjIndex);
+       node.circleFill = #222AAA;   
+       circleFill = #05FC17;
+      }
+    } else {
+      circleFill = #FFFFFF;
+    }
+  }
 
   void display() {
 
@@ -47,7 +62,11 @@ public class Node { //<>// //<>// //<>// //<>//
     fill(#000000);
     textSize(10);
     textAlign(CENTER, CENTER);
-    text(name, posX, posY-2);
+    if (selc == true) {
+      text("Yes", posX, posY-2);
+    } else {
+      text(name, posX, posY-2);
+    }
   }
 }
 
