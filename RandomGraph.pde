@@ -29,36 +29,29 @@ void randomGraph (int size, float r) {
 
 
   // this section randomly connects nodes.
-  for (int i = 0; i < nodes.size(); i++) {
-    Node node = nodes.get(i);
-    // limit the degree of the nodes
-    int x = (int)(random(1, NUMNODES-1));
-    x = x - node.adjacent.size();
-    for (int j = 0; j < x; j++) {
-      int E;
-      boolean goodE;
-      //check to make sure the new edge doesn't already exist
-      do {
-        goodE = true;
-        E = (int)(random(nodes.size()));
-
-        if ( E == node.index)
-          goodE = false;
-
-        for (AdjNode adj : node.adjacent) {
-          if (E == adj.currIndex) 
-            goodE = false;
+  for (int i = 0; i < adjMatrix.length; i++) {
+    for (int j = 0; j < adjMatrix.length; j++) {
+      if (j == i) {
+        adjMatrix[i][j] = 0;
+      } else if (adjMatrix[i][j] == -1) {
+        if (noise(i) > .6) {
+          adjMatrix[i][j] = 0;
+          adjMatrix[j][i] = 0;
+        } else {
+          adjMatrix[i][j] = 1;
+          adjMatrix[j][i] = 1;
+          
+          //create an edge for the now connected nodes since I'm making one now
+          //the program will not overdraw edges
+          Node node1 = nodes.get(i);
+          Node node2 = nodes.get(j);
+          edges.add(new Edge(node1.posX, node1.posY, node2.posX, node2.posY));
+          
+          
         }
-      } while (goodE == false);
-
-      //add the edd to both nodes to prevent duplication      
-      node.adjancency(i, E);
-      node = nodes.get(E);
-      node.adjancency(E, i);
+      }
     }
   }
-
-  for (Node node : nodes) {
-    node.makeEdge();
-  }
+  
+  
 }

@@ -1,29 +1,26 @@
 public class Edge {
-  int node1;
-  int node2;
-  Node current;
-  Node adjacent;
+  float posX1;
+  float posX2;
+  float posY1;
+  float posY2;
   color edgeColor = #000000;
   boolean selected = false;
 
-  Edge( int x, int y) {
-    node1 = x;
-    node2 = y;
-    current = nodes.get(node1);
-    adjacent = nodes.get(node2);
+  Edge( float x1, float y1, float x2, float y2) {
+    posX1 = x1;
+    posX2 = x2;
+    posY1 = y1;
+    posY2 = y2;
     
   }
 
 
 
   void display() {
-    if (current.selc == true) {
-      edgeColor = #FC0505;
-    } else {
-      edgeColor = #FFFFFF;
-    }
+    //edgeColor = #FFFFFF;
+    
     
     fill(edgeColor);
-    line(current.posX, current.posY, adjacent.posX, adjacent.posY);
+    line(posX1, posY1, posX2, posY2);
   }
 }

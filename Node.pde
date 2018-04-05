@@ -4,7 +4,6 @@ public class Node {  //<>//
   float posY;
   float radius;
   char name;
-  public boolean selc = false;
   color circleFill = #FFFFFF;
 
   ArrayList<AdjNode> adjacent = new ArrayList<AdjNode>();
@@ -22,33 +21,9 @@ public class Node {  //<>//
     adjacent.add( new AdjNode(x, y));
   }
 
-  void makeEdge () {
-    for (AdjNode curr : adjacent) {
-      if (curr.edgeMade == false) {
-        int x = curr.currIndex;
-        int y = curr.adjIndex;
-
-        edge.add(new Edge( x, y ));
-        curr.dontUse(true);
-        Node node = nodes.get(y);
-        for (AdjNode adj : node.adjacent) {
-          if (adj.adjIndex == curr.currIndex) {
-            adj.dontUse(true);
-          }
-        }
-      }
-    }
-  }
-  
   void selected (boolean x) {
-    selc = x;
-    Node node;
     if (x == true) {
-      for (AdjNode adjN : adjacent){
-       node = nodes.get(adjN.adjIndex);
-       node.circleFill = #222AAA;   
-       circleFill = #05FC17;
-      }
+      circleFill = #05FC17;
     } else {
       circleFill = #FFFFFF;
     }
@@ -62,11 +37,7 @@ public class Node {  //<>//
     fill(#000000);
     textSize(10);
     textAlign(CENTER, CENTER);
-    if (selc == true) {
-      text("Yes", posX, posY-2);
-    } else {
-      text(name, posX, posY-2);
-    }
+    text(name, posX, posY-2);
   }
 }
 
