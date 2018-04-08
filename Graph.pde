@@ -1,4 +1,4 @@
-int NUMNODES = 5; //(int)(random(5, 26));
+int NUMNODES = (int)(random(5, 26));
 float RADIUS = 20;
 
 //adjacency matrix for the entire graph
@@ -11,10 +11,10 @@ void setup() {
   size (1920, 1000);
   surface.setResizable(true);
   
-  // initialize the matris so that every value is -1
+  // initialize the matrix so that every value is 0
   for (int i = 0; i < adjMatrix.length; i++) {
     for (int j = 0; j < adjMatrix.length; j++){
-      adjMatrix[i][j] = -1; //<>//
+      adjMatrix[i][j] = 0; 
     }
   }
 

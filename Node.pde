@@ -1,5 +1,6 @@
-public class Node {  //<>//
+public class Node { 
   int index;
+  int degree;
   float posX;
   float posY;
   float radius;
@@ -8,12 +9,13 @@ public class Node {  //<>//
 
   ArrayList<AdjNode> adjacent = new ArrayList<AdjNode>();
 
-  Node(float x, float y, float r, int i, char n) {
+  Node(float x, float y, float r, int i, int deg,  char n) {
     posX = x;
     posY = y;
     radius  = r;
     index = i;
     name = n;
+	degree = deg;
   }
 
 

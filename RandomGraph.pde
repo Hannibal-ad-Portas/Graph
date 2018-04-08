@@ -1,57 +1,62 @@
-/* =================================================== //<>//
- This function creates a random disorganised graph. 
+/* ====================================================================
+ This function creates a random disorganised connected graph. 
  
  Arguments:
  
- num:    The number of nodes to create
- r:      The radius of the elipeses to draw
+ 	num:    The number of nodes to create
+ 	r:      The radius of the elipeses to draw
  
- =================================================== */
+ ==================================================================== */
 
 
 void randomGraph (int size, float r) {
-  String alp = "abcdefghijklmnopqrstuvwxyz";
+	// This string is to assign a letter name to each node it limits the
+	// number of nodes to the length of the string, 26
+	String alp = "abcdefghijklmnopqrstuvwxyz";
+	
+	for (int i = 0; i < size; i++) {
+		// set the degree of each node
+		int deg = (int)(random(1, size));
+		// choses the position of each node and makes sure that it is not
+		// colliding with any other node
+		boolean collision;
+		do {
+		collision = true;
+		float x = random(25, width - 25);
+		float y = random(25, height - 25);
 
-  for (int i = 0; i < size; i++) {
-    boolean collision;
-    do {
-      collision = true;
-      float x = random(25, width - 25);
-      float y = random(25, height - 25);
+		collision = collision( x, y, r);
 
-      collision = collision( x, y, r);
+		if ( collision == false) {
+			nodes.add(new Node(x, y, r, i, deg, alp.charAt(i)));
+		}
+		} while (collision == true);
+	}
+	
+	// Generate the value of a row in the adj array inorder to track the
+	// current degree in relation to the desired degree
+	int [] adjSum = new int [size];
+	adjSum = rowSum (adjMatrix);
 
-      if ( collision == false) {
-        nodes.add(new Node(x, y, r, i, alp.charAt(i)));
-      }
-    } while (collision == true);
-  }
+	// this section randomly connects nodes.
+	for (int i = 0; i < adjMatrix.length; i++) {
+		for (int j = 0; j < adjMatrix.length; j++) {
+				if (j == i) {
+					adjMatrix[i][j] = 0;
+				} else if (adjSum[i] < nodes.get(i).degree && 
+						  adjSum[j] < nodes.get(j).degree	){	
+							adjMatrix[i][j] = 1;
+							adjMatrix[j][i] = 1;
 
-
-  // this section randomly connects nodes.
-  for (int i = 0; i < adjMatrix.length; i++) {
-    for (int j = 0; j < adjMatrix.length; j++) {
-      if (j == i) {
-        adjMatrix[i][j] = 0;
-      } else if (adjMatrix[i][j] == -1) {
-        if (noise(i) > .6) {
-          adjMatrix[i][j] = 0;
-          adjMatrix[j][i] = 0;
-        } else {
-          adjMatrix[i][j] = 1;
-          adjMatrix[j][i] = 1;
-          
-          //create an edge for the now connected nodes since I'm making one now
-          //the program will not overdraw edges
-          Node node1 = nodes.get(i);
-          Node node2 = nodes.get(j);
-          edges.add(new Edge(node1.posX, node1.posY, node2.posX, node2.posY));
-          
-          
-        }
-      }
-    }
-  }
-  
-  
+							// create an edge for the now connected nodes
+							// I only create one edge for each pair so
+							// that I do not draw each edge twice.
+							edges.add(new Edge( nodes.get(i).posX,
+												nodes.get(i).posY,
+												nodes.get(j).posX,
+												nodes.get(j).posY ));
+				}
+		}
+		adjSum = rowSum (adjMatrix);
+	}
 }
