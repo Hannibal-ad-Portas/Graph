@@ -1,60 +1,51 @@
 public class Node { 
-  int index;
-  int degree;
-  float posX;
-  float posY;
-  float radius;
-  char name;
-  color circleFill = #FFFFFF;
+	int index;
+	int degree;
+	float posX;
+	float posY;
+	float radius;
+	char name;
+	public boolean selected = false;
+	public boolean adjacent = false;
+	color circleFill = #FFFFFF;
+	// This string is to assign a letter name to each node it limits the
+    // number of nodes to the length of the string, 26
+    String alp = "abcdefghijklmnopqrstuvwxyz";
+	
 
-  ArrayList<AdjNode> adjacent = new ArrayList<AdjNode>();
+	Node(float x, float y, float r, int i, int deg) {
+		posX = x;
+		posY = y;
+		radius  = r;
+		index = i;
+		name = alp.charAt(index);
+		degree = deg;
+	}
 
-  Node(float x, float y, float r, int i, int deg,  char n) {
-    posX = x;
-    posY = y;
-    radius  = r;
-    index = i;
-    name = n;
-	degree = deg;
-  }
+	void changeColor (color C) {
+		circleFill = C;
+	}
 
+	boolean collisionCheck (float x, float y) {
+		return collision (posX, posY, x, y, radius);
+	}
 
-  void adjancency(int x, int y) {
-    adjacent.add( new AdjNode(x, y));
-  }
+	void display() {
 
-  void selected (boolean x) {
-    if (x == true) {
-      circleFill = #05FC17;
-    } else {
-      circleFill = #FFFFFF;
-    }
-  }
+		fill(circleFill);
+		ellipse(posX, posY, radius, radius);
 
-  void display() {
+		fill(#000000);
+		textSize(10);
+		textAlign(CENTER, CENTER);
+		text(name, posX, posY-2);
+	}
 
-    fill(circleFill);
-    ellipse(posX, posY, radius, radius);
-
-    fill(#000000);
-    textSize(10);
-    textAlign(CENTER, CENTER);
-    text(name, posX, posY-2);
-  }
-}
-
-public class AdjNode {
-  int currIndex;
-  int adjIndex;
-  boolean edgeMade = false;
-
-
-  AdjNode( int x, int y ) {
-    currIndex = x;
-    adjIndex = y;
-  }
-
-  void dontUse (boolean x) {
-    edgeMade = x;
-  }
+	void displayDetails ( ) {
+		fill(#000000);
+		textSize(15);
+		textAlign(LEFT);
+		text("The Selected Node is: "+name, width * 0.01, height * 0.02 );
+		text("It has a degree of: "+degree, width * 0.01, height * 0.035 );
+	}
 }
