@@ -32,7 +32,7 @@ void randomGraph (int size, float r) {
 		} while (collision == true);
 	}
 	
-	// Generate the value of a row in the adj array inorder to track the
+	// Generate the value of a row in the adj array in order to track the
 	// current degree in relation to the desired degree
 	int [] adjSum = new int [size];
 	adjSum = rowSum (adjMatrix);
@@ -43,7 +43,7 @@ void randomGraph (int size, float r) {
 				if (j == i) {
 					adjMatrix[i][j] = 0;
 				} else if (adjSum[i] < nodes.get(i).degree && 
-						  adjSum[j] < nodes.get(j).degree	){	
+						   adjSum[j] < nodes.get(j).degree ){	
 							adjMatrix[i][j] = 1;
 							adjMatrix[j][i] = 1;
 
@@ -54,8 +54,10 @@ void randomGraph (int size, float r) {
 												nodes.get(i).posY,
 												nodes.get(j).posX,
 												nodes.get(j).posY ));
+
+
+							adjSum = rowSum (adjMatrix);
 				}
 		}
-		adjSum = rowSum (adjMatrix);
 	}
 }
