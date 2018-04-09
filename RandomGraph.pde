@@ -21,11 +21,13 @@ void randomGraph (int size, float r) {
 		// colliding with any other node
 		boolean collision;
 		do {
-		collision = true;
+		collision = false;
 		float x = random(25, width - 25);
 		float y = random(25, height - 25);
 
-		collision = collision( x, y, r);
+		for(Node node : nodes) {
+			collision = node.collisionCheck( x, y );
+		}
 
 		if ( collision == false) {
 			nodes.add(new Node(x, y, r, i, deg, alp.charAt(i)));

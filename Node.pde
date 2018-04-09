@@ -1,60 +1,33 @@
 public class Node { 
-  int index;
-  int degree;
-  float posX;
-  float posY;
-  float radius;
-  char name;
-  color circleFill = #FFFFFF;
+	int index;
+	int degree;
+	float posX;
+	float posY;
+	float radius;
+	char name;
+	color circleFill = #FFFFFF;
 
-  ArrayList<AdjNode> adjacent = new ArrayList<AdjNode>();
+	Node(float x, float y, float r, int i, int deg,  char n) {
+		posX = x;
+		posY = y;
+		radius  = r;
+		index = i;
+		name = n;
+		degree = deg;
+	}
 
-  Node(float x, float y, float r, int i, int deg,  char n) {
-    posX = x;
-    posY = y;
-    radius  = r;
-    index = i;
-    name = n;
-	degree = deg;
-  }
+	boolean collisionCheck (float x, float y) {
+		return collision (posX, posY, x, y, radius);
+	}
 
+	void display() {
 
-  void adjancency(int x, int y) {
-    adjacent.add( new AdjNode(x, y));
-  }
+		fill(circleFill);
+		ellipse(posX, posY, radius, radius);
 
-  void selected (boolean x) {
-    if (x == true) {
-      circleFill = #05FC17;
-    } else {
-      circleFill = #FFFFFF;
-    }
-  }
-
-  void display() {
-
-    fill(circleFill);
-    ellipse(posX, posY, radius, radius);
-
-    fill(#000000);
-    textSize(10);
-    textAlign(CENTER, CENTER);
-    text(name, posX, posY-2);
-  }
-}
-
-public class AdjNode {
-  int currIndex;
-  int adjIndex;
-  boolean edgeMade = false;
-
-
-  AdjNode( int x, int y ) {
-    currIndex = x;
-    adjIndex = y;
-  }
-
-  void dontUse (boolean x) {
-    edgeMade = x;
-  }
+		fill(#000000);
+		textSize(10);
+		textAlign(CENTER, CENTER);
+		text(name, posX, posY-2);
+	}
 }
