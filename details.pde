@@ -1,12 +1,22 @@
 void details() {
-  for (Node node : nodes) {
-    if ( abs((mouseX - node.posX)) < RADIUS && abs((mouseY - node.posY)) < RADIUS) {
-    //if (collision (mouseX, mouseY, RADIUS) == true) {
-      node.selected(true);
-      
-    } else {
-      node.selected(false);
-      
-    }
-  }
+	boolean collision = false;
+	for (Node node : nodes) {
+		  collision = node.collisionCheck( mouseX, mouseY );
+    
+		if (collision == true) {
+			node.changeColor(#597de0);
+			node.selected = true;
+			node.displayDetails();
+
+		} else {
+			node.changeColor(#FFFFFF);
+			node.selected = false;
+		}
+
+		for(int i = 0; i < NUMNODES; i++) {
+			if (adjMatrix[node.index][i] == 1 && nodes.get(i).selected == true) {
+				node.changeColor(#d5e059);
+			}
+		}
+	}
 }

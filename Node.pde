@@ -5,15 +5,25 @@ public class Node {
 	float posY;
 	float radius;
 	char name;
+	public boolean selected = false;
+	public boolean adjacent = false;
 	color circleFill = #FFFFFF;
+	// This string is to assign a letter name to each node it limits the
+    // number of nodes to the length of the string, 26
+    String alp = "abcdefghijklmnopqrstuvwxyz";
+	
 
-	Node(float x, float y, float r, int i, int deg,  char n) {
+	Node(float x, float y, float r, int i, int deg) {
 		posX = x;
 		posY = y;
 		radius  = r;
 		index = i;
-		name = n;
+		name = alp.charAt(index);
 		degree = deg;
+	}
+
+	void changeColor (color C) {
+		circleFill = C;
 	}
 
 	boolean collisionCheck (float x, float y) {
@@ -29,5 +39,13 @@ public class Node {
 		textSize(10);
 		textAlign(CENTER, CENTER);
 		text(name, posX, posY-2);
+	}
+
+	void displayDetails ( ) {
+		fill(#000000);
+		textSize(15);
+		textAlign(LEFT);
+		text("The Selected Node is: "+name, width * 0.01, height * 0.02 );
+		text("It has a degree of: "+degree, width * 0.01, height * 0.035 );
 	}
 }

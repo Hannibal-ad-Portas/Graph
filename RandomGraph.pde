@@ -10,9 +10,6 @@
 
 
 void randomGraph (int size, float r) {
-	// This string is to assign a letter name to each node it limits the
-	// number of nodes to the length of the string, 26
-	String alp = "abcdefghijklmnopqrstuvwxyz";
 	
 	for (int i = 0; i < size; i++) {
 		// set the degree of each node
@@ -30,7 +27,7 @@ void randomGraph (int size, float r) {
 		}
 
 		if ( collision == false) {
-			nodes.add(new Node(x, y, r, i, deg, alp.charAt(i)));
+			nodes.add(new Node(x, y, r, i, deg));
 		}
 		} while (collision == true);
 	}

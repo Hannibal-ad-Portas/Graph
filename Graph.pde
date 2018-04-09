@@ -8,25 +8,27 @@ ArrayList<Node> nodes = new ArrayList<Node>();
 ArrayList<Edge> edges = new ArrayList<Edge>();
 
 void setup() {
-  size (1920, 1000);
-  surface.setResizable(true);
-  
-  // initialize the matrix so that every value is 0
-  for (int i = 0; i < adjMatrix.length; i++) {
-    for (int j = 0; j < adjMatrix.length; j++){
-      adjMatrix[i][j] = 0; 
-    }
-  }
+	size (1920, 1000);
+	surface.setResizable(true);
+	frameRate(30);
 
-  randomGraph(NUMNODES, RADIUS);
+	// initialize the matrix so that every value is 0
+	for (int i = 0; i < adjMatrix.length; i++) {
+		for (int j = 0; j < adjMatrix.length; j++){
+			adjMatrix[i][j] = 0; 
+		}
+	}
+
+	randomGraph(NUMNODES, RADIUS);
 }
 
 void draw() {
-  for (Edge edg : edges) {
-    edg.display();
-  }
-  for (Node node : nodes) {
-    node.display();
-    details();
-  }
+	background(#686464);
+	for (Edge edg : edges) {
+		edg.display();
+	}
+	for (Node node : nodes) {
+		node.display();
+		details();
+	}
 }
