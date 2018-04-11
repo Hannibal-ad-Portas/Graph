@@ -30,6 +30,30 @@ public class Node {
 		return collision (posX, posY, x, y, radius);
 	}
 
+	void details() {
+		boolean collision = false;
+			for (Node node : nodes) {
+				collision = node.collisionCheck( mouseX, mouseY );
+   
+			if (collision == true) {
+				node.changeColor(#597de0);
+				node.selected = true;
+				//node.displayDetails();
+   
+			} else {
+				node.changeColor(#FFFFFF);
+				node.selected = false;
+			}
+   
+          for(int i = 0; i < nodes.size(); i++) {
+              if (adjMatrix[node.index][i] == 1 && nodes.get(i).selected == true) {
+                  node.changeColor(#d5e059);
+              }
+          }
+      }
+  }
+
+
 	void display() {
 
 		fill(circleFill);
@@ -41,11 +65,11 @@ public class Node {
 		text(name, posX, posY-2);
 	}
 
-	void displayDetails ( ) {
+	/*void displayDetails ( ) {
 		fill(#000000);
 		textSize(15);
 		textAlign(LEFT);
 		text("The Selected Node is: "+name, width * 0.01, height * 0.02 );
 		text("It has a degree of: "+degree, width * 0.01, height * 0.035 );
-	}
+	}*/
 }

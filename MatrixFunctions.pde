@@ -64,3 +64,24 @@ int[][] matrixProduct (int[][] matrixA, int[][] matrixB) {
 	}
 	return matrixOut;
 }
+
+/* ============================================================================
+		This function sets all of the values of a matrix to 0's
+
+		Arguments:
+			matrix:	a 2d array who's internal arrays are all the same length
+
+		Returns:
+			matrix: a 2d array with all values = 0;
+   ========================================================================= */
+
+int [][] initMatrix (int [][] matrix ) {
+	for (int i = 0; i < matrix.length; i ++) {
+		for (int j = 0; j < matrix[0].length; j++) {
+			matrix[i][j] = 0;
+		}
+	}
+
+	return matrix;
+}
+
