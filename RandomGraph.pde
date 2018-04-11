@@ -12,7 +12,7 @@
 void randomGraph (int size, float r) {
 	
 	for (int i = 0; i < size; i++) {
-		// set the degree of each node
+		// set the upper bound of the degree of each node
 		int deg = (int)(random(1, size));
 		// choses the position of each node and makes sure that it is not
 		// colliding with any other node
@@ -60,4 +60,10 @@ void randomGraph (int size, float r) {
 				}
 		}
 	}
+
+	// sets the nod's degree to be it's correct size
+	for (Node node : nodes) {
+		node.degree = adjSum[node.index];
+	}
+
 }
