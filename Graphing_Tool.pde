@@ -50,6 +50,7 @@ public void sliderNodes (int x) {
 public void createGraph () {
 	graph.destroy();
 	graph.populate();
+	graph.findDomMin();
 }
 
 public void clearGraph () {

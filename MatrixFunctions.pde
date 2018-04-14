@@ -1,13 +1,13 @@
-/* =====================================================================
-	This function returns the sum of each row of a matrix
+/* ===========================================================================
+		This function returns the sum of each row of a matrix
 
-	Arguments:
-		matrix:	a 2d int array
+		Arguments:
+			matrix:	a 2d int array
 
-	Returns
-		array: an int array containing the sum of each row of the matrix
+		Returns
+			array: an int array containing the sum of each row of the matrix 
 
-   ================================================================== */
+    ======================================================================= */
 
 int[] rowSum (int[][] matrix) {
 	int [] array = new int [matrix.length];
@@ -21,16 +21,16 @@ int[] rowSum (int[][] matrix) {
 	return array;
 }
 
-/*	======================================================================
-	This function returns a matrix that is the product of two other matrices.
-	The rows of the first matrix must == the colums of the second or the math
-	will not work.
+ /* ======================================================================
+		This function returns a matrix that is the product of two other matrices.
+	 	The rows of the first matrix must == the colums of the second or the
+		math will not work.
 	
-	Argumetns:
+		Argumetns:
 		matrixA: a 2d int array
 		matrixB: a 2d int array
 
-	Returns 
+		Returns 
 		matrixOut: a 2d int array with the same number of rows as the first
 			matrix and the same number of colums as the second matrix.
 	=================================================================== */
@@ -83,5 +83,102 @@ int [][] initMatrix (int [][] matrix ) {
 	}
 
 	return matrix;
+}
+
+/* ============================================================================
+		This function sets the \ diagonal of a matrix all to 1;
+
+		Arguments:
+			matrix:	a 2d array who's internal arrays are all the same length
+
+		Returns:
+			matrix: a 2d array with who's \ diagonals are all 1;
+   ========================================================================= */
+
+int [][] initNeighbor (int [][] matrix ) {
+	for (int i = 0; i < matrix.length; i ++) {
+		for (int j = 0; j < matrix[0].length; j++) {
+			if (i == j) {
+				matrix[i][j] = 1;
+			}
+		}
+	}
+
+	return matrix;
+}
+
+/* ============================================================================
+	This function takes two matrix and returs a single matrix containing the
+	lower number ( number < 0) in each coordinate of both matrixes. 
+
+	So if matrixA had a 3 in coordinate [3][4] and matrixB had a 2 in [3][4] the
+	output will have 2 in [3][4].
+	
+	The two matrices must be of the same dementions
+
+	Arguments:
+		matrixA
+		MatrixB
+
+	Returns:
+		matrixA
+		
+   ========================================================================= */
+
+int [][] matrixOverlay ( int [][] matrixA, int [][] matrixB ) {
+	for ( int i = 0; i < matrixA.length; i++ ) {
+		for (int j = 0; j < matrixA[0].length; i++) {
+			if (matrixA[i][j] == 0 || matrixB[i][j] < matrixA[i][j]) {
+				matrixA[i][j] = matrixB[i][j];
+			}
+		}
+	}
+	return matrixA;
+}
+
+/* ===========================================================================
+	This is used to see if the provided array is filled with non zero numbers.
+	If it has no zero's then it returns a positie int, otherwise it returns 0.
+
+	Arguments:
+		array: an int array
+	Returns:
+		domNum: a intiger indicating if the array has any zero's
+   ======================================================================== */
+
+int checkDom ( int[] array ) {
+	int domNum = 1;
+	
+	for (int i = 0; i < array.length; i++) {
+		domNum *= array[i];
+	}
+
+	return domNum;
+}
+
+/* ==========================================================================
+	This function adds all the elements at the same vertical coordinates into an
+	array.
+
+	Arguments:
+		iter:	an array list of int indicating the rows of a matrix
+		matrix:	a 2d square array 
+
+	Returns:
+		arrayOut:	an int array
+   ======================================================================= */
+
+int [] colAdd (ArrayList<Integer> iter, int [][] matrix) {
+	int[] arrayOut = new int [matrix.length];
+	for (int i = 0; i < arrayOut.length; i++){
+		arrayOut[i] = 0;
+	}
+
+	for (int i = 0; i < iter.size(); i++){
+		for (int j = 0; j < arrayOut.length; j++) {
+			arrayOut[j] += matrix[i][j];
+		}
+	}
+	return arrayOut;
 }
 
