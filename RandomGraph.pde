@@ -22,12 +22,14 @@ void randomGraph (int size, float r) {
 		float x = random(25, width - 25);
 		float y = random(25, height - 25);
 
-		for(Node node : nodes) {
-			collision = node.collisionCheck( x, y );
+		for(Node node : graph.nodes) {
+			if ( node.collisionCheck( x, y ) == true ) {
+				collision = true;
+			}
 		}
 
 		if ( collision == false) {
-			nodes.add(new Node(x, y, r, i, deg));
+			graph.nodes.add(new Node(x, y, r, i, deg));
 		}
 		} while (collision == true);
 	}
@@ -35,34 +37,35 @@ void randomGraph (int size, float r) {
 	// Generate the value of a row in the adj array in order to track the
 	// current degree in relation to the desired degree
 	int [] adjSum = new int [size];
-	adjSum = rowSum (adjMatrix);
+	adjSum = rowSum (graph.adjMatrix);
 
 	// this section randomly connects nodes.
-	for (int i = 0; i < adjMatrix.length; i++) {
-		for (int j = 0; j < adjMatrix.length; j++) {
+	for (int i = 0; i < graph.adjMatrix.length; i++) {
+		for (int j = 0; j < graph.adjMatrix.length; j++) {
 				if (j == i) {
-					adjMatrix[i][j] = 0;
-				} else if (adjSum[i] < nodes.get(i).degree && 
-						   adjSum[j] < nodes.get(j).degree ){	
-							adjMatrix[i][j] = 1;
-							adjMatrix[j][i] = 1;
+					graph.adjMatrix[i][j] = 0;
+				} else if (adjSum[i] < graph.nodes.get(i).degree && 
+						   adjSum[j] < graph.nodes.get(j).degree ){	
+							graph.adjMatrix[i][j] = 1;
+							graph.adjMatrix[j][i] = 1;
 
 							// create an edge for the now connected nodes
 							// I only create one edge for each pair so
 							// that I do not draw each edge twice.
-							edges.add(new Edge( nodes.get(i).posX,
-												nodes.get(i).posY,
-												nodes.get(j).posX,
-												nodes.get(j).posY ));
+							graph.edges.add(new Edge(	graph.nodes.get(i).posX,
+														graph.nodes.get(i).posY,
+														graph.nodes.get(j).posX,
+														graph.nodes.get(j).posY
+													));
 
 
-							adjSum = rowSum (adjMatrix);
+							adjSum = rowSum (graph.adjMatrix);
 				}
 		}
 	}
 
 	// sets the nod's degree to be it's correct size
-	for (Node node : nodes) {
+	for (Node node : graph.nodes) {
 		node.degree = adjSum[node.index];
 	}
 
