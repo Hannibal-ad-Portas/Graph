@@ -109,7 +109,7 @@ int [][] initNeighbor (int [][] matrix ) {
 
 /* ============================================================================
 	This function takes two matrix and returs a single matrix containing the
-	lower number ( number < 0) in each coordinate of both matrixes. 
+	lower positive number in each coordinate of both matrixes. 
 
 	So if matrixA had a 3 in coordinate [3][4] and matrixB had a 2 in [3][4] the
 	output will have 2 in [3][4].
@@ -118,22 +118,38 @@ int [][] initNeighbor (int [][] matrix ) {
 
 	Arguments:
 		matrixA
-		MatrixB
+		matrixB
 
 	Returns:
-		matrixA
+		matrixOut
 		
    ========================================================================= */
 
 int [][] matrixOverlay ( int [][] matrixA, int [][] matrixB ) {
+	int [][] matrixOut = new int[matrixA.length][matrixA[0].length];
 	for ( int i = 0; i < matrixA.length; i++ ) {
-		for (int j = 0; j < matrixA[0].length; i++) {
-			if (matrixA[i][j] == 0 || matrixB[i][j] < matrixA[i][j]) {
-				matrixA[i][j] = matrixB[i][j];
+		for (int j = 0; j < matrixA[0].length; j++) {
+			//print("matrixA["+i+"]["+j+"] = "+matrixA[i][j]);
+			//println(" matrixB["+i+"]["+j+"] = "+matrixB[i][j]);
+			if (matrixB[i][j] != 0 && matrixA[i][j] == 0) {
+				matrixOut[i][j] = matrixB[i][j];
+				//println("Gets B: "+matrixB[i][j]);
+			} else if (matrixA[i][j] != 0 && matrixB[i][j] == 0){
+				matrixOut[i][j] = matrixA[i][j];
+				//println("Gets A: "+matrixA[i][j]);
+			} else {
+				if (matrixA[i][j] < matrixB[i][j]) {
+					matrixOut[i][j] = matrixA[i][j];
+					//println("Gets A: "+matrixA[i][j]);
+				} else {
+					matrixOut[i][j] = matrixB[i][j];
+					//println("Gets B: "+matrixB[i][j]);
+
+				}
 			}
 		}
 	}
-	return matrixA;
+	return matrixOut;
 }
 
 /* ===========================================================================
@@ -172,13 +188,66 @@ int [] colAdd (ArrayList<Integer> iter, int [][] matrix) {
 	int[] arrayOut = new int [matrix.length];
 	for (int i = 0; i < arrayOut.length; i++){
 		arrayOut[i] = 0;
+		//print(arrayOut[i]+" ");
 	}
-
-	for (int i = 0; i < iter.size(); i++){
-		for (int j = 0; j < arrayOut.length; j++) {
-			arrayOut[j] += matrix[i][j];
+	if (iter.size() == 1) {
+		for (int i = 0; i < arrayOut.length; i++) {
+			arrayOut[i] += matrix[iter.get(0)][i];
+			//print(arrayOut[i]+" ");
+			
+		}
+	} else {
+		for (int i = 0; i < iter.size(); i++){
+			for (int j = 0; j < arrayOut.length; j++) {
+				arrayOut[j] += matrix[j][iter.size()];
+			}
+			//print(arrayOut[i]+" ");
 		}
 	}
 	return arrayOut;
 }
+/* ==============================================================================
+	This Function prints a 2d array to the consol. It can handel arrays of up to
+	size 26.
 
+	Argument:
+		matrix:	a 2d array to be printed.
+	
+   ========================================================================== */
+
+void printMatrix (int[][] matrix) {
+	String alp = "abcdefghijklmnopqrstuvwxyz";
+	print("  ");
+	for (int i = 0; i < matrix.length; i++) {
+		print(" \033[4m"+alp.charAt(i)+"\033[0m");
+	}
+	println();
+	for (int i = 0; i < matrix.length; i++) {
+		print(alp.charAt(i)+"| ");
+		for (int j = 0; j < matrix.length; j++) {
+			//print(alp.charAt(j));
+			print(matrix[i][j]+" ");
+		}
+		print("\n");
+	}
+}
+
+/* ============================================================================
+	This function returns the contents of a 2d array. This is so you can create
+	copies of a matrix and not have them all refer back to the dame date.
+	Arguments:
+		matrixA:	The array to be copied
+
+	Returns:
+		matrixOut
+   ========================================================================= */
+
+int[][] copyMatrix (int [][]matrixA) {
+	int [][] matrixOut = new int [matrixA.length][matrixA[0].length];
+	for (int i = 0; i < matrixA.length; i++){
+		for(int j =0; j < matrixA[i].length; j++) {
+			matrixOut[i][j] = matrixA[i][j];
+		}
+	}
+	return matrixOut;
+}

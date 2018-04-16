@@ -10,7 +10,7 @@ class Node {
 	color circleFill = #FFFFFF;
 	// This string is to assign a letter name to each node it limits the
     // number of nodes to the length of the string, 26
-    String alp = "abcdefghijklmnopqrstuvwxyz";
+    String alp = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	
 
 	Node(float x, float y, float r, int i, int deg) {

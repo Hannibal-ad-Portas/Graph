@@ -11,4 +11,24 @@ class DomSet {
 		domArray = dA;
 	}
 
+	void colorDist () {
+		for ( Node node : graph.nodes) {
+			for (Integer index : nodeIndex) {
+				if (index == node.index) {
+					graph.changeColor (255, index);
+					break;
+				} else {
+					int shortPath = 100;
+					if (graph.neighborMatrix[index][node.index] < shortPath) {
+						shortPath = graph.neighborMatrix[index][node.index];
+					}
+					graph.changeColor (shortPath, index);
+				}
+			}
+		}
+	}
+
+  void exist () {
+     println("Hello, num: " +domNum); 
+  }
 }
