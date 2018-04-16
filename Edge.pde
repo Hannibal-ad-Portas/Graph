@@ -1,4 +1,4 @@
-public class Edge {
+class Edge {
   float posX1;
   float posX2;
   float posY1;

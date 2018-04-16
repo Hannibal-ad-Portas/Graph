@@ -13,7 +13,7 @@ void randomGraph (int size, float r) {
 	
 	for (int i = 0; i < size; i++) {
 		// set the upper bound of the degree of each node
-		int deg = (int)(random(1, size));
+		int deg = (int)((noise(i))*10);
 		// choses the position of each node and makes sure that it is not
 		// colliding with any other node
 		boolean collision;
@@ -42,7 +42,7 @@ void randomGraph (int size, float r) {
 	// this section randomly connects nodes.
 	for (int i = 0; i < graph.adjMatrix.length; i++) {
 		for (int j = 0; j < graph.adjMatrix.length; j++) {
-				if (j == i) {
+				if (i == j) {
 					graph.adjMatrix[i][j] = 0;
 				} else if (adjSum[i] < graph.nodes.get(i).degree && 
 						   adjSum[j] < graph.nodes.get(j).degree ){	

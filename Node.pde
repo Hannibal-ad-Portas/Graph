@@ -1,4 +1,4 @@
-public class Node { 
+class Node {
 	int index;
 	int degree;
 	float posX;
@@ -10,7 +10,7 @@ public class Node {
 	color circleFill = #FFFFFF;
 	// This string is to assign a letter name to each node it limits the
     // number of nodes to the length of the string, 26
-    String alp = "abcdefghijklmnopqrstuvwxyz";
+    String alp = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	
 
 	Node(float x, float y, float r, int i, int deg) {
@@ -42,11 +42,4 @@ public class Node {
 		text(name, posX, posY-2);
 	}
 
-	/*void displayDetails ( ) {
-		fill(#000000);
-		textSize(15);
-		textAlign(LEFT);
-		text("The Selected Node is: "+name, width * 0.01, height * 0.02 );
-		text("It has a degree of: "+degree, width * 0.01, height * 0.035 );
-	}*/
 }
