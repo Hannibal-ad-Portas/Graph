@@ -94,6 +94,7 @@ public class Graph {
 		}
 		println("There are: "+domSet.size()+" minimum dominating sets for distance "+k);
 	}
+	
 
 	int[][] distanceK (int k) {
 		int[][] tempMatrix = new int [numNodes][numNodes];
@@ -106,8 +107,8 @@ public class Graph {
 		for (int i = 1; i < k; i++) {
 			tempMatrix = matrixProduct (tempMatrix, adjMatrix);
 			int iterator = i + 1;
-			println("The adj to the "+iterator+" is: ");
-			printMatrix(tempMatrix);
+			//println("The adj to the "+iterator+" is: ");
+			//printMatrix(tempMatrix);
 			for (int j = 0; j < tempMatrix.length; j++) {
 				for(int l = 0; l < tempMatrix[i].length; l++) {
 					if (tempMatrix[j][l] != 0) {
@@ -117,13 +118,13 @@ public class Graph {
 					}
 				}
 			}
-			println("The k Matrix is: ");
-			printMatrix(kMatrix);
+			//println("The k Matrix is: ");
+			//printMatrix(kMatrix);
 			//println("The Overlay Should be:");
 			//printMatrix(matrixOverlay (neighborMatrix, kMatrix));
 			distKMatrix = matrixOverlay (distKMatrix, kMatrix);
-			println("The kMatrix overlay is: ");
-			printMatrix(distKMatrix);
+			//println("The kMatrix overlay is: ");
+			//printMatrix(distKMatrix);
 		}
     return distKMatrix;
 	}
@@ -133,10 +134,15 @@ public class Graph {
 		nodes.get(index).changeColor(fill);
 	}
 
-	//void findExcentricity () {
- //   int[][] 
-	//	}
-	//} 
+	void findExcent () {
+		for (int i = 0; i < numNodes; i++) {
+			for (int j = 0; j < numNodes; j++) {
+				if (totalMatrix[i][j] > nodes.get(i).exc) {
+					nodes.get(i).exc = totalMatrix[i][j];
+				}
+			}
+	   }
+	} 
 
 
 }
