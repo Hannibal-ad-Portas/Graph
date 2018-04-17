@@ -85,4 +85,5 @@ public void DominatingSets () {
 public void organise () {
  graph.totalMatrix = graph.distanceK(graph.numNodes);
  printMatrix(graph.totalMatrix);
+ graph.findExcent();
 }
