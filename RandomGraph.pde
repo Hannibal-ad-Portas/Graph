@@ -13,7 +13,7 @@ void randomGraph (int size, float r) {
 	
 	for (int i = 0; i < size; i++) {
 		// set the upper bound of the degree of each node
-		int deg = (int)((noise(i))*10);
+		int deg = (int)(random(3, size-1));
 		// choses the position of each node and makes sure that it is not
 		// colliding with any other node
 		boolean collision;
@@ -52,10 +52,8 @@ void randomGraph (int size, float r) {
 							// create an edge for the now connected nodes
 							// I only create one edge for each pair so
 							// that I do not draw each edge twice.
-							graph.edges.add(new Edge(	graph.nodes.get(i).posX,
-														graph.nodes.get(i).posY,
-														graph.nodes.get(j).posX,
-														graph.nodes.get(j).posY
+							graph.edges.add(new Edge(	graph.nodes.get(i).index,
+														graph.nodes.get(j).index
 													));
 
 

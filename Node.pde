@@ -1,6 +1,7 @@
 class Node {
 	int index;
 	int degree;
+	int exct = 100;
 	float posX;
 	float posY;
 	float radius;

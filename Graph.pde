@@ -4,7 +4,7 @@ public class Graph {
 	public int k = 2;
 	int[][] adjMatrix;
 	int[][] neighborMatrix;
-	
+	int[][] totalMatrix;	
 	ArrayList<Node> nodes = new ArrayList<Node>();
 	ArrayList<Edge> edges = new ArrayList<Edge>();
 	ArrayList<DomSet> domSet = new ArrayList<DomSet>();
@@ -23,6 +23,7 @@ public class Graph {
 		//println("The Neighbor Matrix is:");
 		//printMatrix(neighborMatrix);
 		neighborMatrix = copyMatrix(adjMatrix);
+		totalMatrix = copyMatrix(adjMatrix);
 		neighborMatrix = initNeighbor (neighborMatrix); 
 		//println("The Neighbor Matrix is initalised to: ");
 		//printMatrix(neighborMatrix);
@@ -78,42 +79,41 @@ public class Graph {
 				//println("The domNum is: "+domNum);
 				if (domNum > 0) {
 					domSet.add(new DomSet (iterators, domNum, domArray));
-					//println("There are: "+domSet.size()+" dominating sets");
 				}
 				temp = iterators.get(iterators.size()-1);
 				temp += 1;
 				iterators.set(iterators.size() -1, temp);
-				for (int i = iterators.size() -1; i > 0; i--) {
-					if (iterators.get(i) > numNodes) {
-						iterators.set(i, 0);
-						temp = iterators.get(i-1);
-						temp += 1;
-						iterators.set(i - 1, temp);
+				if (iterators.size()-1 > numNodes) {
+					for (int i = 0; i < iterators.size()-2; i++) {
+						iterators.set(i,iterators.get(i)+1);
 					}
+					iterators.set(iterators.size()-1,
+						iterators.get(iterators.size()-2)+1);
 				}
 			}
-			if (iterators.get(0) >= numNodes) {
-				iterators.set (0, 0);
-			}
-				println(iterators.get(0));
 		}
 		println("There are: "+domSet.size()+" minimum dominating sets for distance "+k);
 	}
 
-	void distanceK (int k) {
+	int[][] distanceK (int k) {
 		int[][] tempMatrix = new int [numNodes][numNodes];
 		int[][] kMatrix = new int[numNodes][numNodes];
+		int[][] distKMatrix = new int [numNodes][numNodes];
 		tempMatrix = copyMatrix (adjMatrix);
+		kMatrix = copyMatrix(tempMatrix);
 		kMatrix = initMatrix(kMatrix); 
+		distKMatrix = copyMatrix(initNeighbor(kMatrix));
 		for (int i = 1; i < k; i++) {
-			tempMatrix = matrixProduct ( tempMatrix, adjMatrix);
+			tempMatrix = matrixProduct (tempMatrix, adjMatrix);
 			int iterator = i + 1;
 			println("The adj to the "+iterator+" is: ");
 			printMatrix(tempMatrix);
 			for (int j = 0; j < tempMatrix.length; j++) {
 				for(int l = 0; l < tempMatrix[i].length; l++) {
-					if (tempMatrix[j][l] > 0) {
+					if (tempMatrix[j][l] != 0) {
 						kMatrix[j][l] = i+1;
+					} else {
+						kMatrix[j][l] = 0;
 					}
 				}
 			}
@@ -121,14 +121,22 @@ public class Graph {
 			printMatrix(kMatrix);
 			//println("The Overlay Should be:");
 			//printMatrix(matrixOverlay (neighborMatrix, kMatrix));
-			neighborMatrix = matrixOverlay (neighborMatrix, kMatrix);
-			println("The new Neighbor Matrix is: ");
-			printMatrix(neighborMatrix);
+			distKMatrix = matrixOverlay (distKMatrix, kMatrix);
+			println("The kMatrix overlay is: ");
+			printMatrix(distKMatrix);
 		}
+    return distKMatrix;
 	}
 
 	void changeColor (color k , int index) {
 		color fill = color(k, 3*k, 5*k);
 		nodes.get(index).changeColor(fill);
 	}
+
+	//void findExcentricity () {
+ //   int[][] 
+	//	}
+	//} 
+
+
 }

@@ -8,7 +8,8 @@ public int SetK = 5;
 Graph graph = new Graph();
 
 void setup() {
-	fullScreen(1);
+	//fullScreen(1);
+	size(500,500);
 	frameRate(30);
 
 
@@ -37,11 +38,15 @@ void setup() {
 		.setPosition (25, 125)
 		.setSize (100, 20)
 		;
+  cp5.addButton ("organise")
+    .setPosition (25, 150)
+    .setSize (100, 20)
+    ;
 
 
-	//graph.populate();
-	//graph.distanceK(graph.k);
-	//graph.findDomMin();
+//	graph.populate();
+//	graph.distanceK(1);
+//	graph.findDomMin();
 }
 
 void draw() {
@@ -73,6 +78,11 @@ public void clearGraph () {
 
 public void DominatingSets () {
 	//graph.domSet.get(0).colorDist();
-	graph.distanceK(graph.k);
-	graph.findDomMin();
+	graph.neighborMatrix = graph.distanceK(graph.k);
+  graph.findDomMin();
+}
+
+public void organise () {
+ graph.totalMatrix = graph.distanceK(graph.numNodes);
+ printMatrix(graph.totalMatrix);
 }

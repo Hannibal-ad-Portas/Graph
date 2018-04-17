@@ -127,10 +127,11 @@ int [][] initNeighbor (int [][] matrix ) {
 
 int [][] matrixOverlay ( int [][] matrixA, int [][] matrixB ) {
 	int [][] matrixOut = new int[matrixA.length][matrixA[0].length];
+	String alp = "abcdefghijklmnopqrstuvwxyz";
 	for ( int i = 0; i < matrixA.length; i++ ) {
 		for (int j = 0; j < matrixA[0].length; j++) {
-			//print("matrixA["+i+"]["+j+"] = "+matrixA[i][j]);
-			//println(" matrixB["+i+"]["+j+"] = "+matrixB[i][j]);
+			//print("matrixA["+alp.charAt(i)+"]["+alp.charAt(j)+"] = "+matrixA[i][j]);
+			//println(" matrixB["+alp.charAt(i)+"]["+alp.charAt(j)+"] = "+matrixB[i][j]);
 			if (matrixB[i][j] != 0 && matrixA[i][j] == 0) {
 				matrixOut[i][j] = matrixB[i][j];
 				//println("Gets B: "+matrixB[i][j]);
@@ -138,13 +139,14 @@ int [][] matrixOverlay ( int [][] matrixA, int [][] matrixB ) {
 				matrixOut[i][j] = matrixA[i][j];
 				//println("Gets A: "+matrixA[i][j]);
 			} else {
-				if (matrixA[i][j] < matrixB[i][j]) {
+				if (matrixA[i][j] <= matrixB[i][j]) {
 					matrixOut[i][j] = matrixA[i][j];
 					//println("Gets A: "+matrixA[i][j]);
 				} else {
-					matrixOut[i][j] = matrixB[i][j];
-					//println("Gets B: "+matrixB[i][j]);
-
+					if ( matrixA[i][j] > matrixB[i][j]) {
+						matrixOut[i][j] = matrixB[i][j];
+						//println("Gets B: "+matrixB[i][j]);
+					}
 				}
 			}
 		}
@@ -199,7 +201,7 @@ int [] colAdd (ArrayList<Integer> iter, int [][] matrix) {
 	} else {
 		for (int i = 0; i < iter.size(); i++){
 			for (int j = 0; j < arrayOut.length; j++) {
-				arrayOut[j] += matrix[j][iter.size()];
+				arrayOut[j] += matrix[j][iter.size()-1];
 			}
 			//print(arrayOut[i]+" ");
 		}
@@ -217,16 +219,17 @@ int [] colAdd (ArrayList<Integer> iter, int [][] matrix) {
 
 void printMatrix (int[][] matrix) {
 	String alp = "abcdefghijklmnopqrstuvwxyz";
+	println("================================================================");
 	print("  ");
 	for (int i = 0; i < matrix.length; i++) {
-		print(" \033[4m"+alp.charAt(i)+"\033[0m");
+		print("\t"+alp.charAt(i));
 	}
 	println();
 	for (int i = 0; i < matrix.length; i++) {
 		print(alp.charAt(i)+"| ");
 		for (int j = 0; j < matrix.length; j++) {
 			//print(alp.charAt(j));
-			print(matrix[i][j]+" ");
+			print("\t"+matrix[i][j]);
 		}
 		print("\n");
 	}
