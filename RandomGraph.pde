@@ -13,7 +13,7 @@ void randomGraph (int size, float r) {
 	
 	for (int i = 0; i < size; i++) {
 		// set the upper bound of the degree of each node
-		int deg = (int)(random(3, size-1));
+		int deg = (int)(random(1, 5));
 		// choses the position of each node and makes sure that it is not
 		// colliding with any other node
 		boolean collision;

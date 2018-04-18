@@ -1,116 +1,128 @@
 public class Graph {
-	int numNodes = 10;
-	int radius = 20;
-	public int k = 2;
-	int[][] adjMatrix;
-	int[][] neighborMatrix;
-	int[][] totalMatrix;	
-	ArrayList<Node> nodes = new ArrayList<Node>();
-	ArrayList<Edge> edges = new ArrayList<Edge>();
-	ArrayList<DomSet> domSet = new ArrayList<DomSet>();
+  int numNodes = 10;
+  int size = 20;
+  public int k = 2;
+  int radius = 100;
+  int diameter = -1;
+  int totalExc = 0;
+  int[][] adjMatrix;
+  int[][] neighborMatrix;
+  int[][] totalMatrix;	
+  ArrayList<Node> nodes = new ArrayList<Node>();
+  ArrayList<Edge> edges = new ArrayList<Edge>();
+  ArrayList<DomSet> domSet = new ArrayList<DomSet>();
+  IntList excts = new IntList();
 
-	Graph () {}
+  Graph () {
+  }
 
-	void populate() {
-		adjMatrix =  new int [numNodes][numNodes];
-		neighborMatrix = new int [numNodes][numNodes];
-		// insure the matrix is filled with nothing but 0
-		adjMatrix = initMatrix (adjMatrix);
-		randomGraph (numNodes, radius);
-		println("The adjMatrix for the graph is: ");
-		printMatrix(adjMatrix);	
-		//neighborMatrix = adjMatrix;
-		//println("The Neighbor Matrix is:");
-		//printMatrix(neighborMatrix);
-		neighborMatrix = copyMatrix(adjMatrix);
-		totalMatrix = copyMatrix(adjMatrix);
-		neighborMatrix = initNeighbor (neighborMatrix); 
-		//println("The Neighbor Matrix is initalised to: ");
-		//printMatrix(neighborMatrix);
-		//println("Leaving the adjMatrix unchanged");
-		//printMatrix(adjMatrix);	
-	}
+  void populate() {
+    adjMatrix =  new int [numNodes][numNodes];
+    neighborMatrix = new int [numNodes][numNodes];
+    // insure the matrix is filled with nothing but 0
+    adjMatrix = initMatrix (adjMatrix);
+    randomGraph (numNodes, size);
+    //println("The adjMatrix for the graph is: ");
+    //printMatrix(adjMatrix);	
+    //neighborMatrix = adjMatrix;
+    //println("The Neighbor Matrix is:");
+    //printMatrix(neighborMatrix);
+    neighborMatrix = copyMatrix(adjMatrix);
+    totalMatrix = copyMatrix(adjMatrix);
+    neighborMatrix = initNeighbor (neighborMatrix); 
+    //println("The Neighbor Matrix is initalised to: ");
+    //printMatrix(neighborMatrix);
+    //println("Leaving the adjMatrix unchanged");
+    //printMatrix(adjMatrix);
+  }
 
-	void destroy (){
-		for (int i = nodes.size() - 1; i >= 0; i--) {
-			nodes.remove(i);
-		}
-		for (int i = edges.size() - 1; i >= 0; i--) {
-			edges.remove(i);
-		}
-		forgetDom();
-		println("\t============================================================");
-	}
+  void destroy () {
+    nodes.clear();
+    edges.clear();
+    forgetDom();
+    adjMatrix = null;
+    neighborMatrix = null;
+    totalMatrix = null;
+    println("\t============================================================");
+  }
 
-	void forgetDom (){
-		for (int i = domSet.size() - 1; i >= 0; i--) {
-			domSet.remove(i);
-		}	
-	}
-	void setNodes(int x) {
-		numNodes = x;
-	}
+  void forgetDom () {
+    for (int i = domSet.size() - 1; i >= 0; i--) {
+      domSet.remove(i);
+    }
+  }
+  void setNodes(int x) {
+    numNodes = x;
+  }
 
-	void update() {
-		for (Edge edge : edges) {
-			edge.display();
-		}
-		for (Node node : nodes) {
-			node.display();
-		}
-		if (domSet.size() < 0) {
-			domSet.get(0).colorDist();
-		}
-	}
+  void update() {
+    for (Edge edge : edges) {
+      edge.display();
+      edge.reCheck();
+    }
+    for (Node node : nodes) {
+      node.display();
+      node.move();
+    }
+    if (domSet.size() < 0) {
+      domSet.get(0).colorDist();
+    }
+  }
 
 	void findDomMin () {
 		ArrayList<Integer> iterators = new ArrayList<Integer>();
 		int domNum;	
 		Integer temp;
 		int [] domArray = new int [numNodes];
-		while (domSet.size() == 0 && iterators.size() <= numNodes) {
+		while (domSet.isEmpty() && iterators.size() < numNodes) {
 			iterators.add(0);
-			temp = iterators.get(0);
-			temp = 0;
-			println("There are "+iterators.size()+" iterators");
-			while (iterators.get(0) < numNodes) {
+			for (int i = 0; i < iterators.size(); i++) {
+				iterators.set(i, i);
+			}
+			//println("There are "+iterators.size()+" iterators");
+			while (iterators.get(iterators.size()-1) < numNodes) {
 				domArray = colAdd(iterators, neighborMatrix);
-				domNum = checkDom(domArray);  
+				domNum = checkDom(domArray);
 				//println("The domNum is: "+domNum);
 				if (domNum > 0) {
 					domSet.add(new DomSet (iterators, domNum, domArray));
 				}
-				temp = iterators.get(iterators.size()-1);
-				temp += 1;
-				iterators.set(iterators.size() -1, temp);
-				if (iterators.size()-1 > numNodes) {
-					for (int i = 0; i < iterators.size()-2; i++) {
-						iterators.set(i,iterators.get(i)+1);
+				if (iterators.get(iterators.size()-1) < numNodes) {
+					temp = iterators.get(iterators.size()-1);
+					temp += 1;
+					iterators.set(iterators.size() -1, temp);
+				} else {
+					for (int i = 0; i < iterators.size()-1; i++) {
+						iterators.set(i, iterators.get(i)+1);
 					}
-					iterators.set(iterators.size()-1,
-						iterators.get(iterators.size()-2)+1);
 				}
 			}
+			
 		}
+		String alp = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; 
 		println("There are: "+domSet.size()+" minimum dominating sets for distance "+k);
-	}
-	
+		for (int i = 0; i < domSet.size(); i++) {
+			println("The "+i+" domSet is:");
+			for (int j = 0; j < domSet.get(i).nodeIndex.size(); j++) {
+				print(alp.charAt(domSet.get(i).nodeIndex.get(j))+"\t");
+			}
+			println();
+		}
+  }
 
-	int[][] distanceK (int k) {
+
+  int[][] distanceK (int k) {
 		int[][] tempMatrix = new int [numNodes][numNodes];
 		int[][] kMatrix = new int[numNodes][numNodes];
 		int[][] distKMatrix = new int [numNodes][numNodes];
 		tempMatrix = copyMatrix (adjMatrix);
 		kMatrix = copyMatrix(tempMatrix);
 		kMatrix = initMatrix(kMatrix); 
-		distKMatrix = copyMatrix(initNeighbor(kMatrix));
+		distKMatrix = copyMatrix(initNeighbor(adjMatrix));
 		for (int i = 1; i < k; i++) {
 			tempMatrix = matrixProduct (tempMatrix, adjMatrix);
-			int iterator = i + 1;
-			//println("The adj to the "+iterator+" is: ");
-			//printMatrix(tempMatrix);
 			for (int j = 0; j < tempMatrix.length; j++) {
-				for(int l = 0; l < tempMatrix[i].length; l++) {
+				for (int l = 0; l < tempMatrix[i].length; l++) {
 					if (tempMatrix[j][l] != 0) {
 						kMatrix[j][l] = i+1;
 					} else {
@@ -118,31 +130,85 @@ public class Graph {
 					}
 				}
 			}
-			//println("The k Matrix is: ");
-			//printMatrix(kMatrix);
-			//println("The Overlay Should be:");
-			//printMatrix(matrixOverlay (neighborMatrix, kMatrix));
+			println("The Two matrices to overlay");
+			printMatrix(distKMatrix);
+			printMatrix(kMatrix);
 			distKMatrix = matrixOverlay (distKMatrix, kMatrix);
-			//println("The kMatrix overlay is: ");
-			//printMatrix(distKMatrix);
 		}
-    return distKMatrix;
-	}
+		return distKMatrix;
+  }
 
-	void changeColor (color k , int index) {
-		color fill = color(k, 3*k, 5*k);
-		nodes.get(index).changeColor(fill);
-	}
+  void changeColor (color k, int index) {
+    color fill = color(k, 3*k, 5*k);
+    nodes.get(index).changeColor(fill);
+  }
 
 	void findExcent () {
-		for (int i = 0; i < numNodes; i++) {
+		 for (int i = 0; i < numNodes; i++) {
 			for (int j = 0; j < numNodes; j++) {
 				if (totalMatrix[i][j] > nodes.get(i).exc) {
 					nodes.get(i).exc = totalMatrix[i][j];
 				}
 			}
-	   }
-	} 
+			if (nodes.get(i).exc > diameter) {
+				diameter = nodes.get(i).exc;
+			}
+			if (nodes.get(i).exc < graph.radius) {
+				graph.radius = nodes.get(i).exc;
+			}
+		}
+	}
+
+	void checkConnect () {
+		int [] adjSum = new int [numNodes];
+		for (int i = 0; i < numNodes; i++) {
+			for (int j = 0; j < numNodes; j++) {
+				if (totalMatrix[i][j] == 0) {
+					adjMatrix[i][j] = 1;
+					adjMatrix[j][i] = 1;
+					edges.add(new Edge (nodes.get(i).index, nodes.get(j).index));
+					adjSum = rowSum (adjMatrix);
+					totalMatrix = distanceK(numNodes);
+				}
+			}
+		}
+		for (Node node : nodes) {
+			node.degree = adjSum[node.index];
+		}
+	}
+
+  void ExcFindNum () {
+	for (Node node : nodes) {
+		boolean ectPrez = false;
+		for (int i = 0; i < excts.size(); i++) {
+			if (node.exc == excts.get(i)) {
+				ectPrez = true;
+			}
+		}
+		if (ectPrez == false) {
+			excts.append(node.exc);
+		}
+		totalExc = excts.size();
+		excts.sort();
+	}
+  }
 
 
+	void setNewPos (int exc, float distance) {
+		IntList excNodes = new IntList();
+		float angle;
+		// gets the numbner of nodes with the specified exc 
+		for (Node node : nodes) {
+			if (node.exc == exc) {
+			excNodes.append(node.index);
+			}
+		}
+		//Finds the angel between the nodes.
+		angle = TWO_PI/(float)excNodes.size();
+		for (int i = 0; i < excNodes.size(); i++) {
+			nodes.get(excNodes.get(i)).desX = distance*cos(angle) + centerX;
+			nodes.get(excNodes.get(i)).desY = distance*sin(angle) + centerY;
+			angle += angle + 50;
+		}
+	}
 }

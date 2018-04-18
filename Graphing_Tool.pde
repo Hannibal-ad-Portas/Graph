@@ -4,14 +4,21 @@ ControlP5 cp5;
 public int myColorRect = 200;
 public int myColorBackground = 100;
 public int SetK = 5;
+public int regions = 0;
+public float bacWidth;
+public float backHeight;
+public float centerY = height * 0.5;
+public float centerX = width * 0.5;
 
 Graph graph = new Graph();
 
-void setup() {
-	//fullScreen(1);
-	size(500,500);
-	frameRate(30);
 
+void setup() {
+	fullScreen(2);
+	//size(500,500);
+	frameRate(30);
+  centerY = height * 0.5;
+  centerX = width * 0.5;
 
 	cp5 = new ControlP5(this);
 	
@@ -38,19 +45,37 @@ void setup() {
 		.setPosition (25, 125)
 		.setSize (100, 20)
 		;
-  cp5.addButton ("organise")
-    .setPosition (25, 150)
-    .setSize (100, 20)
-    ;
+	cp5.addButton ("Connect")
+		.setPosition (25, 150)
+		.setSize (100, 20)
+		;
+	/*
+	cp5.addButton ("organise")
+		.setPosition (25, 175)
+		.setSize (100, 20)
+		;
+	cp5.addButton ("setNewPos")
+		.setPosition (25, 200)
+		.setSize (100, 20)
+		;
+	*/
 
 
 //	graph.populate();
-//	graph.distanceK(1);
+//	graph.distanceK(graph.numNodes);
 //	graph.findDomMin();
+//	graph.neighborMatrix = graph.distanceK(graph.k);
+//	graph.totalMatrix = graph.distanceK(graph.numNodes);
+//	graph.checkConnect();
+//	graph.ExcFindNum();
+//	organise ();
+//	setNewPos ();
 }
 
 void draw() {
 	background (#D3D3D3);
+	divideBack(regions);
+	stroke(0);
 	graph.update();
 }
 
@@ -63,6 +88,10 @@ public void SetK (int x) {
 	graph.k = x;
 }
 
+public void Connect () {
+	graph.checkConnect();
+}
+
 public void sliderNodes (int x) {
 	graph.setNodes(x);
 }
@@ -70,20 +99,47 @@ public void sliderNodes (int x) {
 public void createGraph () {
 	graph.destroy();
 	graph.populate();
+	//printMatrix(graph.adjMatrix);
+	graph.totalMatrix = graph.distanceK(graph.numNodes);
 }
 
 public void clearGraph () {
-	graph.destroy();	
+	graph.destroy();
+	regions = 0;
 }
 
 public void DominatingSets () {
 	//graph.domSet.get(0).colorDist();
 	graph.neighborMatrix = graph.distanceK(graph.k);
-  graph.findDomMin();
+	printMatrix(graph.neighborMatrix);
+	graph.findDomMin();
 }
 
 public void organise () {
- graph.totalMatrix = graph.distanceK(graph.numNodes);
- printMatrix(graph.totalMatrix);
- graph.findExcent();
+	graph.findExcent();
+	graph.ExcFindNum();
+	regions = numCircles();
+	bacWidth = ((width*0.5)/regions);
+	backHeight  = ((0.5* height)/regions);
+}
+
+public void setNewPos () {
+  float distance = 0.25*bacWidth;
+   for (int i = 1; i <= graph.excts.size(); i++) {
+     graph.setNewPos(graph.excts.get(i), (distance*i));
+   }
+
+}
+
+public int numCircles () {
+	int x; 
+	x = graph.totalExc;
+	return x;
+}
+
+public void divideBack (int num) {  
+    fill (#D3D3D3);
+    for (int i = num; i > 0; i--){
+    ellipse(centerX, centerY, bacWidth*i, backHeight*i);  
+  }
 }

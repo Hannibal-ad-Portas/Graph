@@ -21,7 +21,13 @@ class Edge {
     posY2 = node.posY;
     
   }
-
+  
+  void reCheck() {
+    posX1 = graph.nodes.get(node1).posX;
+    posX2 = graph.nodes.get(node2).posX;
+    posY1 = graph.nodes.get(node1).posY;
+    posY2 = graph.nodes.get(node2).posY;
+  }
 
 
   void display() {

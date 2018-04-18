@@ -188,24 +188,32 @@ int checkDom ( int[] array ) {
 
 int [] colAdd (ArrayList<Integer> iter, int [][] matrix) {
 	int[] arrayOut = new int [matrix.length];
+	String alp = "ABCDEGFGHIJKLMNOPQRSTUV"; 
+	//println("ArrayOut starts as: ");
 	for (int i = 0; i < arrayOut.length; i++){
 		arrayOut[i] = 0;
 		//print(arrayOut[i]+" ");
 	}
-	if (iter.size() == 1) {
-		for (int i = 0; i < arrayOut.length; i++) {
-			arrayOut[i] += matrix[iter.get(0)][i];
-			//print(arrayOut[i]+" ");
-			
+	
+	for (int i = 0; i < iter.size(); i++){
+		//println("The iterator is: "+alp.charAt(iter.get(i)));
+		//println();
+		//println("Add to it: ");
+		for(int j = 0; j < matrix[i].length; j++) {
+			//print(matrix[iter.get(i)][j]+" ");
 		}
-	} else {
-		for (int i = 0; i < iter.size(); i++){
-			for (int j = 0; j < arrayOut.length; j++) {
-				arrayOut[j] += matrix[j][iter.size()-1];
-			}
-			//print(arrayOut[i]+" ");
+		//println();
+		for (int j = 0; j < matrix[i].length; j++) {
+			arrayOut[j] += matrix[iter.get(i)][j];
 		}
+
 	}
+	//println("Giving ");
+	for (int j = 0; j < matrix.length; j++) {
+		//print(arrayOut[j]+" ");
+	}
+	//println();
+	//println();
 	return arrayOut;
 }
 /* ==============================================================================
