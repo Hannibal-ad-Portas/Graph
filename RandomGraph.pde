@@ -19,7 +19,7 @@ void randomGraph (int size, float r) {
 		boolean collision;
 		do {
 		collision = false;
-		float x = random(25, width - 25);
+		float x = random(130, width - 25);
 		float y = random(25, height - 25);
 
 		for(Node node : graph.nodes) {

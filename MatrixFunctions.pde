@@ -186,7 +186,7 @@ int checkDom ( int[] array ) {
 		arrayOut:	an int array
    ======================================================================= */
 
-int [] colAdd (ArrayList<Integer> iter, int [][] matrix) {
+int [] colAdd (IntList iter, int [][] matrix) {
 	int[] arrayOut = new int [matrix.length];
 	String alp = "ABCDEGFGHIJKLMNOPQRSTUV"; 
 	//println("ArrayOut starts as: ");
