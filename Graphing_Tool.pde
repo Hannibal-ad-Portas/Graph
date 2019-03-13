@@ -15,7 +15,7 @@ Graph graph = new Graph();
 
 
 void setup() {
-	fullScreen(2);
+	fullScreen(1);
 	//size(500,500);
 	frameRate(30);
 	centerY = height * 0.5;
